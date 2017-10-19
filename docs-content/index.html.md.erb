@@ -42,6 +42,18 @@ Each PCF Pipeline consists of a:
 
 
 ## <a id="reqs"></a>Requirements
+The following are prerequisites for utilizing PCF Pipelines:
+
++ A deployed instance of a Concourse server.
++ Pivotal encourages operators to install Concourse via [bosh-deploy](https://concourse.ci/clusters-with-bosh.html), as this is the only endorsed method of installation endorsed by Pivotal Support.
++ Access to a source control repository, for example, git. 
++ Access to a Docker registry. 
++ Enabling tasks requires a Docker image, so as to instantiate a container. 
+For more information on using Docker registries with PCF, see the [Using Docker Registries](https://docs.pivotal.io/pivotalcf/1-12/opsguide/docker-registry.html) topic. 
++ Fly Command Line Interface (Fly CLI).
+	+ This can be downloaded via the OS-specific link provided in the lower right hand corner of your Concourse user interface. 
+
+
 
 ## <a id='download'></a>Downloading PCF Pipelines
 The most stable version of Pipelines are available at [PivNet](https://network.pivotal.io/products/pcf-automation/) . 
