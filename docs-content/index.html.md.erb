@@ -37,7 +37,7 @@ Each PCF Pipeline consists of a:
 	+ Jobs declare a unit of work (creating infrastructure using terraform scripts, for example), and tasks, which breaks down the unit of work into smaller chunks.The pipeline.yml also contain resources (such as the Ops Manager tile) which define the artifacts that enter or exit the pipelines.
 + `params.yml` file.
 	+ This file configures the pipeline’s environment variables. 
-	+ This file should be filled out and stored in a credential  management system such as LastPass or Credhub. and then supplied to fly via the -l flag. See the fly documentation for more.
+	+ Because this file contains credentials, it should be stored in a credential  management system such as LastPass or Credhub.
 
 
 
