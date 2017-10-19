@@ -1,57 +1,52 @@
 ---
-title: YOUR-PRODUCT-NAME
+title: PCF-Pipelines
 owner: Partners
 ---
 
-**This topic should begin with a brief description of your product. See below for an example.**
-
-This documentation describes the Redis Labs Enterprise Cluster (RLEC) Service Broker for Pivotal Cloud Foundry (PCF). 
-The RLEC Service Broker registers a service broker on PCF and exposes its service plans on the Marketplace. 
-Developers can provision Redis databases by creating instances of the service plans using Apps Manager or the cf CLI.
+This documentation describes how to download, configure, and modify PCF Pipelines.
 
 ## <a id='overview'></a>Overview
 
-**The overview should provide a description of the product's key features.**
+PCF Pipelines are Concourse pipelines that install and upgrade Pivotal Cloud Foundry and its components. 
+Pipelines are portable end-to-end task chains.
+Each PCF Pipelines release contains bug fixes and new features. 
+Pipelines are base templates meant to be modified. 
+PCF Pipelines are utilized at Platform Dojos to automate the installation and upgrading of PCF. 
+The PCF deployment deploys the [Pivotal reference architecture] (https://docs.pivotal.io/pivotalcf/1-12/refarch/index.html), and typically uses three availability zones, high availability for components where possible, and is recommended for production environments.
 
-YOUR-PRODUCT-NAME includes the following key features:
+The following types of pipelines are currently production-ready and supported by Pivotal:
 
-* Feature one.
-* Feature two.
-* Feature three.
+<table>
+  <tr>
+    <th>PCF Pipeline Type</th>
+    <th>Notes</th>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+  </tr>
+  	<td></td>
+    <td></td>
+  </tr>
+</table>
 
-## <a id="snapshot"></a>Product Snapshot
+Each PCF Pipeline consists of a:
 
-<dl>
-<dt>YOUR-PRODUCT-NAME details:</dt>
-<dd><strong>Version</strong>: vYOUR-VERSION-NUMBER </dd>
-<dd><strong>Release date</strong>: YOUR-RELEASE-DATE (Ex: August 1 2016)</dd>
-<dd><strong>Software component version</strong>: vYOUR-SOFTWARE-COMPONENT-VERSION-NUMBER</dd>
-<dd><strong>Compatible Ops Manager version(s)</strong>: vYOUR-COMPATIBLE-OPS-MAN-VERSION (Ex. v1.6.x, v1.7.x)</dd>
-<dd><strong>Compatible Elastic Runtime version(s)</strong>: vYOUR-COMPATIBLE-ELASTIC-RUNTIME-VERSION (Ex. v1.4.x, v1.5.x, v1.6.x)</dd>
-<dd><strong>vSphere support?</strong> YES-OR-NO</dd>
-<dd><strong>OpenStack support?</strong> YES-OR-NO</dd>
-<dd><strong>AWS support?</strong> YES-OR-NO</dd>
-</dl>
++ `pipeline.yml` file.
+	+ This file configures the pipeline’s structure, resources, and jobs.
+	+ Jobs declare a unit of work (creating infrastructure using terraform scripts, for example), and tasks, which breaks down the unit of work into smaller chunks.The pipeline.yml also contain resources (such as the Ops Manager tile) which define the artifacts that enter or exit the pipelines.
++ `params.yml` file.
+	+ This file configures the pipeline’s environment variables. 
+	+ This file should be filled out and stored in a credential  management system such as LastPass or Credhub. and then supplied to fly via the -l flag. See the fly documentation for more.
+
+
 
 ## <a id="reqs"></a>Requirements
 
-**Provide any general or specific requirements, prerequisites, or dependencies here. 
-A general requirement might be something like, "An AppDynamics account." 
-A specific requirement might be something like, "Packaging Dependencies for Offline Buildpacks."**
-
-YOUR-PRODUCT-NAME has the following requirements:
-
-+ PREREQUISITE-1
-
-+ PREREQUISITE-2
 
 ## <a id="limitations"></a>Limitations
 
 **List any known limitations.**
-
-## <a id="feedback"></a>Feedback
-
-Please provide any bugs, feature requests, or questions to the [Pivotal Cloud Foundry Feedback](mailto:pivotal-cf-feedback@pivotal.io) list or send an email to YOUR-SUPPORT-EMAIL.
 
 ## <a id='license'></a>License
 
