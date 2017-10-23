@@ -53,12 +53,18 @@ For more information on using Docker registries with PCF, see the [Using Docker 
 + Fly Command Line Interface (Fly CLI).
 	+ This can be downloaded via the OS-specific link provided in the lower right hand corner of your Concourse user interface. 
 
-
-
 ## <a id='download'></a>Downloading PCF Pipelines
 The most stable version of Pipelines are available at [PivNet](https://network.pivotal.io/products/pcf-automation/) . 
 Access to Pipelines is restricted. 
 Please contact your account executive if you would like access to PCF Pipelines via PivNet. 
+
+## <a id='install'></a>Install Pipelines
+Install Pipelines deploy PCF for your desired IaaS. For public cloud installs, such as AWS, Azure, and GCP, the pipeline will deploy the necessary infrastructure in the public cloud, such as the networks, loadbalancers, and databases, and use these resources to then deploy Ops Manager and Elastic Runtime. On-premise private datacenter install pipelines, such as those for vSphere and Openstack, do not provision any infrastructure resources and only deploy Ops Manager and Elastic Runtime, using resources that are specified in the parameters of the pipeline.
+<!---Insert link to install pipelines --> 
+
+
+## <a id='upgrade'></a>Upgrade Pipelines
+
 
 
 
