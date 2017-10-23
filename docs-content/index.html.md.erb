@@ -14,6 +14,15 @@ Pipelines are base templates meant to be modified.
 PCF Pipelines are utilized at Platform Dojos to automate the installation and upgrading of PCF. 
 The PCF deployment deploys the [Pivotal reference architecture] (https://docs.pivotal.io/pivotalcf/1-12/refarch/index.html), and typically uses three availability zones, high availability for components where possible, and is recommended for production environments.
 
+**Benefits**
+
+PCF Pipelines improve upon the manual experience of Installing and Upgrading PCF in the following ways:
+  
+  + PCF Pipelines allows operators to continuously deploy PCF while still maintaining previously configured modifications.
+  + PCF Pipelines ensures that PCF platforms are more secure by ensuring a patch is applied as soon as that patch is available on PivNet.
+    + Because patches are created frequently, automating this process decreases the manual maintenance for the platform operator. 
+
+
 The following types of pipelines are currently production-ready and supported by Pivotal:
 
 <table>
@@ -22,10 +31,16 @@ The following types of pipelines are currently production-ready and supported by
     <th>Notes</th>
   </tr>
   <tr>
-    <td></td>
-    <td></td>
+    <td><code>install-pcf</code></td>
+    <td>Currently, the following install pipelines are officially supported by Pivotal: 
+          <ul> 
+            <li>vSphere</li>
+            <li>GCP</li>
+        </ul>
+        </td>
+
   </tr>
-  	<td></td>
+    <td><code>upgrade-tile</code></td>
     <td></td>
   </tr>
 </table>
@@ -37,9 +52,7 @@ Each PCF Pipeline consists of a:
 	+ Jobs declare a unit of work (creating infrastructure using terraform scripts, for example), and tasks, which breaks down the unit of work into smaller chunks.The pipeline.yml also contain resources (such as the Ops Manager tile) which define the artifacts that enter or exit the pipelines.
 + `params.yml` file.
 	+ This file configures the pipeline’s environment variables. 
-	+ Because this file contains credentials, it should be stored in a credential  management system such as LastPass or Credhub.
-
-
+	+ Because this file contains credentials, it should be stored in a credential management system such as LastPass or Credhub.
 
 ## <a id="reqs"></a>Requirements
 The following are prerequisites for utilizing PCF Pipelines:
@@ -53,12 +66,21 @@ For more information on using Docker registries with PCF, see the [Using Docker 
 + Fly Command Line Interface (Fly CLI).
 	+ This can be downloaded via the OS-specific link provided in the lower right hand corner of your Concourse user interface. 
 
-
-
 ## <a id='download'></a>Downloading PCF Pipelines
 The most stable version of Pipelines are available at [PivNet](https://network.pivotal.io/products/pcf-automation/) . 
 Access to Pipelines is restricted. 
 Please contact your account executive if you would like access to PCF Pipelines via PivNet. 
+
+## <a id='install'></a>Install Pipelines
+Install Pipelines deploy PCF for your desired IaaS. For public cloud installs, such as AWS, Azure, and GCP, the pipeline will deploy the necessary infrastructure in the public cloud, such as the networks, loadbalancers, and databases, and use these resources to then deploy Ops Manager and Elastic Runtime. On-premise private datacenter install pipelines, such as those for vSphere and Openstack, do not provision any infrastructure resources and only deploy Ops Manager and Elastic Runtime, using resources that are specified in the parameters of the pipeline.
+
+
+
+<!---Insert link to install pipelines doc--> 
+
+
+## <a id='upgrade'></a>Upgrade Pipelines
+
 
 
 
