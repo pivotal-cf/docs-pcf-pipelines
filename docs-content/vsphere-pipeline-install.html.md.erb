@@ -1,0 +1,28 @@
+---
+title: Install vSphere using PCF Pipelines
+owner: 
+---
+
+This documentation describes how to use PCF Pipeline to deploy PCF for vSphere.
+
+The vSphere install pipeline does not provision any infrastructure resources such as networks, loadbalancers, and databases.
+
+The vSphere install pipeline only deploys PCF, using resources that are specified in the params.yml file, which is located in the `vsphere` subdirectory of the `install-pcf` parent directory.
+
+## <a id='usage'></a>Usage
+
+1. Log in to Pivotal Network and download the latest version of PCF Platform Automation with Concourse (PCF Pipelines).
+1. Log in and target your Concourse server instance:
+	`fly -t yourtarget login --concourse-url https://yourtarget.example.com`
+1. Edit the `params.yml` file with details related to your infrastructure.
+1. Run the `set-pipeline` command:
+
+	`fly -t yourtarget set-pipeline \`
+
+	`--pipeline PIPELINE-TYPE`
+	`--config PIPELINE-TYPE/IAAS/pipeline.yml \`</br>
+	`--load-vars-from PIPELINE-TYPE-/IAAS/params.yml`
+1. Navigate to the pipeline url, and unpause the pipeline.
+1. Depending on the pipeline, the first job will either trigger on its own or the job will require manual intervention.
+
+Some pipelines may also require manual work during the duration of the run to complete the pipeline.
