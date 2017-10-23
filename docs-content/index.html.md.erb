@@ -65,6 +65,15 @@ The following are prerequisites for utilizing PCF Pipelines:
 For more information on using Docker registries with PCF, see the [Using Docker Registries](https://docs.pivotal.io/pivotalcf/1-12/opsguide/docker-registry.html) topic. 
 + Fly Command Line Interface (Fly CLI).
 	+ This can be downloaded via the OS-specific link provided in the lower right hand corner of your Concourse user interface. 
+Customers have to configure open firewalls to only the resources that you need access to (see https://github.com/pivotal-cf/pcf-pipelines/blob/master/FIREWALL.md) or set up proxies to the necessary resources, under the following circumstances:
+No external access to Docker Hub and no internal Docker Registry available.
+Centralized git-based SCMS not always available (~ 50% of customers).
+Access to AWS S3 is blocked.
+Access to GitHub is either blocked or white-listed only at projects domain level.
+PivNet domain is typically white-listed (for existing Pivotal customers).
+HTTP/HTTPS proxy required for external internet access.
+
+
 
 ## <a id='download'></a>Downloading PCF Pipelines
 The most stable version of Pipelines are available at [PivNet](https://network.pivotal.io/products/pcf-automation/) . 
