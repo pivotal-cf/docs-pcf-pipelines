@@ -25,11 +25,11 @@ This is because new major/minor upgrades generally require careful reading of th
    	1.	`interval`: This controls how often the pipeline is triggered. 
    	This parameters defaults to `30m` (30 minutes).
    	1.	`start` and `stop`: These parameters control when the resource is allowed to trigger the pipeline and default to 12:00 AM and 11:59 PM. 
-   	<!---For example, if the pipeline should only run between the hours of 11:00 PM and 1:00 AM, the `start` and `stop` parameters should be set to:	
+   	For example, if the pipeline should only run between the hours of 11:00 PM and 1:00 AM, the `start` and `stop` parameters should be set to:	
       ```
       start: "11:00 PM"
       stop: "1:00 AM"
-      ```       -->
+      ```       
    	1.	`location`: This is the timezone for `start`, `stop`, and `days`. 
    	This parameter defaults to `America/Los_Angeles`.
 	1.	`days`: This controls what days of the week the resource is allowed to trigger the pipeline. 
