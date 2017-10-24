@@ -13,6 +13,7 @@ Operators will need one pipeline per tile in your foundation, to keep every tile
 It is important to note that the pipeline does not try to upgrade major or minor versions, only patch versions. 
 For example, if a new release of a tile is released going from either --.n.-- to --.n+1.-- or n.--.-- to n+1.--.-- the pipeline will not upgrade to these tile versions. 
 It will upgrade from --.--.n to --.--.n+1.
+This is because new major/minor upgrades generally require careful reading of the release notes to understand what changes will be introduced with these releases, as well as additional configuration of the tiles/Ops Manager. 
 
 ## <a id='usage'></a>Usage
 
@@ -24,23 +25,21 @@ It will upgrade from --.--.n to --.--.n+1.
    	1.	`interval`: This controls how often the pipeline is triggered. 
    	This parameters defaults to `30m` (30 minutes).
    	1.	`start` and `stop`: These parameters control when the resource is allowed to trigger the pipeline and default to 12:00 AM and 11:59 PM. 
-   	For example, if the pipeline should only run between the hours of 11:00 PM and 1:00 AM, the `start` and `stop` parameters should be set to:	
-
-
+   	<!---For example, if the pipeline should only run between the hours of 11:00 PM and 1:00 AM, the `start` and `stop` parameters should be set to:	
       ```
       start: "11:00 PM"
       stop: "1:00 AM"
-      ```       
-
+      ```       -->
    	1.	`location`: This is the timezone for `start`, `stop`, and `days`. 
    	This parameter defaults to `America/Los_Angeles`.
 	1.	`days`: This controls what days of the week the resource is allowed to trigger the pipeline. 
 	Unless modified, this parameter triggers the pipeline everyday, by default.
 
 1.	Configure your `params.yml` file.
-	1.	This file contains parameters for the pipeline and the secrets necessary to communicate with PivNet and OpsMan. Fill it out with the necessary values and store it in a safe place.
+	1.	This file contains parameters for the pipeline and the secrets necessary to communicate with PivNet and OpsMan. 
+	Fill it out with the necessary values and store it in a safe place.
 
-1.	Set the pipeline, using your updated params.yml:
+1.	Set the pipeline, using your updated `params.yml`:
 `fly -t lite set-pipeline -p upgrade-your-tile -c pipeline.yml -l params.yml`
 
 1.	Navigate to the pipeline url and unpause the pipeline. The pipeline should then start triggering automatically.
