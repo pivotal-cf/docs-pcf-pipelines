@@ -3,28 +3,30 @@ title: Install vSphere using PCF Pipelines
 owner: 
 ---
 
-This documentation describes how to use PCF Pipeline to deploy PCF for vSphere.
+This documentation describes how to use PCF Pipelines to deploy PCF for vSphere.
 
 ## <a id='overview'></a>Overview
 The vSphere install pipeline does not provision any infrastructure resources such as networks, loadbalancers, and databases.
-
-The vSphere install pipeline only deploys PCF, using resources that are specified in the params.yml file, which is located in the `vsphere` subdirectory of the `install-pcf` parent directory.
+The vSphere Install Pipeline deploys PCF using resources that are specified in the `params.yml` file.
 
 ## <a id='usage'></a>Usage
 1. Log in to Pivotal Network and download the latest version of PCF Platform Automation with Concourse (PCF Pipelines).
-1. Edit the `params.yml` file with details related to your infrastructure.
+1. Unzip the compressed file.
+1. Locate the `install-pcf` sub-folder.
+1. Locate the `vspshere` sub-folder.
+1. Edit the `params.yml` file with your infrastructure details.
 1. Log in and target your Concourse server instance:
-	`$ fly -t yourtarget login --concourse-url https://yourtarget.example.com`
-1. Run the `set-pipeline` command:
-
-	`fly -t yourtarget set-pipeline \`
-
-	`--pipeline PIPELINE-TYPE`
-	`--config PIPELINE-TYPE/IAAS/pipeline.yml \`</br>
-	`--load-vars-from PIPELINE-TYPE-/IAAS/params.yml`
-1. Navigate to the pipeline url and unpause the pipeline.
-To unpause the pipeline, do so through the Concourse UI or run the following command:
+	`$ fly -t TARGET login --concourse-url TARGET-URL`
+1. Run the following commands:
+	
+	```
+	$ fly -t yourtarget set-pipeline
+	$ --pipeline PIPELINE-TYPE
+	$ --config PIPELINE-TYPE/IAAS/pipeline.yml</br>
+	$ --load-vars-from PIPELINE-TYPE-/IAAS/params.yml
+	```
+1. Navigate to the pipeline url and unpause the pipeline through the Concourse user interface. You can also run the following command to unpause the pipeline:
 `$ fly -t TARGET-NAME unpause-pipeline --pipeline PIPELINE-NAME`
 
-Depending on the pipeline, the first job will either trigger on its own or the job will require manual intervention.
+Depending on the pipeline, the first job will either trigger automatically or require manual intervention.
 
