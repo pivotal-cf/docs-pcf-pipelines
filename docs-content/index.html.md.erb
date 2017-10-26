@@ -11,27 +11,31 @@ PCF Pipelines are Concourse pipelines that install and upgrade Pivotal Cloud Fou
 Pipelines are portable end-to-end task chains.
 Each PCF Pipelines release contains bug fixes and new features. 
 Pipelines are base templates meant to be modified. 
-PCF Pipelines are utilized at Platform Dojos to automate the installation and upgrading of PCF. 
-The PCF deployment deploys the [Pivotal reference architecture] (https://docs.pivotal.io/pivotalcf/1-12/refarch/index.html), and typically uses three availability zones, high availability for components where possible, and is recommended for production environments.
+PCF Pipelines are utilized at Platform Dojos to automate the installing and upgrading of PCF. 
+The PCF deployment installs the desired [Pivotal Reference Architecture] (https://docs.pivotal.io/pivotalcf/1-12/refarch/index.html). These Reference Architectures typically use three availability zones and high availability for components where possible. As such, these Reference Architecture are recommended for production environments.
 
 Each pcf-pipeline consists of a:
 
 + `pipeline.yml` file.
-  + This file configures the pipeline’s structure, resources, and jobs.
-  + Jobs declare a unit of work (creating infrastructure using terraform scripts, for example), and tasks, which breaks down the unit of work into smaller chunks.The pipeline.yml also contain resources (such as the Ops Manager tile) which define the artifacts that enter or exit the pipelines.
+  + This file configures the structure, resources, jobs, and tasks of the pipeline.
+      + Jobs declare a unit of work.
+      + Tasks break down that unit of work into smaller units.
+  + This file contains resources, such as the Ops Manager tile, which defines the artifacts that enter or exit the pipelines.
 + `params.yml` file.
   + This file configures the pipeline’s environment variables. 
-  + Because this file contains credentials, it should be stored in a credential management system such as LastPass or Credhub.
+  + Because this file contains credentials, it should be stored in a credential management system, such as LastPass or Credhub.
 
-## <a id='overview'></a>Benefits
+## <a id='benefits'></a>Benefits
 
 PCF Pipelines improve upon the manual experience of Installing and Upgrading PCF in the following ways:
   
-  + PCF Pipelines allows operators to continuously deploy PCF while still maintaining previously configured modifications.
+  + PCF Pipelines allow operators to continuously deploy PCF while still maintaining previously configured modifications.
   + PCF Pipelines ensures that PCF platforms are more secure by ensuring a patch is applied as soon as that patch is available on PivNet.
-    + Because patches are created frequently, automating this process decreases the manual maintenance for the platform operator. 
+    + Because patches are created frequently, automating this process decreases the manual maintenance necessary for the platform operator. 
 
 ## <a id='compatability'></a>Compatibility Matrix
+The following pipelines are considered production-ready and are endorsed Pivotal Support:
+
 <p class="note"><strong>Note</strong>: Currently, pcf-pipelines do not support 1.12.4.
 </p>
 <table>
