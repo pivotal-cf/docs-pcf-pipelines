@@ -12,29 +12,20 @@ These pipelines are base templates meant to be modified.
 Operators utilize PCF Pipelines during Platform Dojos to automate the installing and upgrading of PCF. 
 
 The `install-pcf` pipeline deploys PCF for the operator's chosen IaaS.
-The PCF deployment installs the desired [Pivotal Reference Architecture] (https://docs.pivotal.io/pivotalcf/refarch/index.html). These Reference Architectures typically use three availability zones and high availability for components where possible. As such, these Reference Architecture are recommended for production environments.
+This pipeline installs Pivotal Cloud Foundry according to the [Reference Architecture](https://docs.pivotal.io/pivotalcf/refarch/index.html) of your chosen IaaS. 
+These architectures are suitable production environments, typically using three availability zones and high availability for components where possible.
 
-Each pcf-pipeline consists of a:
-
-+ `pipeline.yml` file.
-  + This file configures the structure, resources, jobs, and tasks of the pipeline.
-      + Jobs declare a unit of work.
-      + Tasks break down that unit of work into smaller units.
-  + This file contains resources, such as the Ops Manager tile, which defines the artifacts that enter or exit the pipelines.
-+ `params.yml` file.
-  + This file configures the pipeline’s environment variables. 
-  + Because this file contains credentials, it should be stored in a credential management system, such as LastPass or Credhub.
-
-
+The `upgrade-tile` pipeline supports patch upgrades of Elastic Runtime and service tiles.
+ 
 ## <a id='benefits'></a>Benefits
 
 PCF Pipelines improve upon the manual experience of Installing and Upgrading PCF in the following ways:
   
   + Using PCF Pipelines allows operators to continuously deploy PCF while still maintaining previously configured pipeline modifications.
   + Using PCF Pipelines ensures that PCF platforms are more secure by applying a patch as soon as that patch is available on PivNet.
-    + Because patches are created frequently, automating the patch upgrade process decreases manual pipeline maintenance. 
 
-## <a id='support'></a> Currently Supported Pipelines
+
+## <a id='support'></a> Supported Pipelines
 The following pipelines are considered production-ready and are endorsed Pivotal Support:
 
 <table>
@@ -57,35 +48,31 @@ The following pipelines are considered production-ready and are endorsed Pivotal
 
 
 ## <a id="reqs"></a>Prerequisites
-The following are prerequisites for utilizing PCF Pipelines:
+The following are prerequisites for using PCF Pipelines:
 
-+ A deployed instance of a Concourse server.
-+ Pivotal encourages operators to install Concourse via [bosh-deploy](https://concourse.ci/clusters-with-bosh.html), as this is the only endorsed method of installation endorsed by Pivotal Support.
-+ Access to a source control repository, for example, git. 
-+ Access to a Docker registry. 
-+ Enabling tasks requires a Docker image, so as to instantiate a container. 
-For more information on using Docker registries with PCF, see the [Using Docker Registries](https://docs.pivotal.io/pivotalcf/1-12/opsguide/docker-registry.html) topic. 
-+ Fly Command Line Interface (Fly CLI).
-	+ This can be downloaded via the OS-specific link provided in the lower right hand corner of the Concourse user interface. For more information on using the Fly Command Line Interface, see the [Fly CLI](https://concourse.ci/fly-cli.html) documentation.
-+ Firewall Provisions
-  + Customers may have to configure open firewalls or proxies for the resources accessed by PCF Pipelines. For more information on these firewall provisions, see the Configuring Firewalls for PCF Pipelines topic.
++ Concourse server: Pivotal encourages operators to install Concourse by using [bosh-deploy](https://concourse.ci/clusters-with-bosh.html), as this is the only endorsed method of installation endorsed by Pivotal Support.
++ Access to a source control repository, for example, git
++ Access to a Docker registry: Enabling tasks requires a Docker image, so as to instantiate a container. 
+For more information on using Docker registries with PCF, see the [Using Docker Registries](https://docs.pivotal.io/pivotalcf/opsguide/docker-registry.html) topic. 
++ Fly Command Line Interface (Fly CLI): This can be downloaded through the OS-specific link provided in the lower right hand corner of the Concourse user interface. For more information on using the Fly Command Line Interface, see the [Fly CLI](https://concourse.ci/fly-cli.html) documentation.
++ Firewall Provisions: Customers may have to configure open firewalls or proxies for the resources accessed by PCF Pipelines. For more information on when firewall provisions are needed, see the Configuring Firewalls for PCF Pipelines topic.
 
 <!---Insert link to firewalls doc page, once it's completed--> 
 
 
-## <a id='download'></a>Downloading PCF Pipelines
+## <a id='download'></a>Download PCF Pipelines
 The most stable version of Pipelines are available at [PivNet](https://network.pivotal.io/products/pcf-automation/) . 
 Access to Pipelines is restricted. 
-Please contact your account executive if you would like access to PCF Pipelines via PivNet. Each PCF Pipelines release contains bug fixes and new features.
+Contact your account executive if you would like access to PCF Pipelines via PivNet. Each PCF Pipelines release contains bug fixes and new features.
 
 ## <a id='install'></a>Install Pipelines
-Install Pipelines deploy PCF for your desired IaaS. 
-For public cloud installs, such as GCP, the pipeline deploys the necessary infrastructure in the public cloud. This infrastructure includes networks, loadbalancers, and databases. These resources are used to deploy Ops Manager and Elastic Runtime. 
-On-premise private datacenter install pipelines, such as those for vSphere , do not provision any infrastructure resources and only deploy Ops Manager and Elastic Runtime, using resources that are specified in the `params.yml` file of the pipeline.
+Install Pipelines deploy PCF for the operator's chosen IaaS. 
+For public cloud installs, such as GCP, the pipeline deploys the necessary infrastructure in the public cloud. This infrastructure includes networks, load balancers, and databases. These resources are used to deploy Ops Manager and Elastic Runtime. 
+On-premise private datacenter install pipelines, such as those for vSphere, do not provision any infrastructure resources.
+The vSphere Install Pipeline only deploys Ops Manager and Elastic Runtime by using resources that are specified in the `params.yml` file of the pipeline.
 
 ### <a id='compatability'></a>Compatibility Matrix
-<p class="note"><strong>Note</strong>: Currently, PCF Pipelines is not compatible with Elastic Runtime 1.12.4 or Ops Manager 1.12.4.
-</p>
+
 <table>
   <tr>
     <th>IaaS</th>
@@ -107,8 +94,6 @@ On-premise private datacenter install pipelines, such as those for vSphere , do 
   </tr>
 </table>
 
-<p class="note"><strong>Note</strong>: Currently, PCF Pipelines is not compatible with Elastic Runtime 1.12.4 or Ops Manager 1.12.4.
-</p>
 <table>
   <tr>
     <th>IaaS</th>
@@ -135,7 +120,7 @@ On-premise private datacenter install pipelines, such as those for vSphere , do 
 
 
 ## <a id='upgrade'></a>Upgrade Tile Pipelines
-This pipeline supports patch upgrades of Elastic Runtime and service tiles. These pipelines are intended to be kept running for as long as the foundation exists. 
-Upgrade pipelines check Pivotal Network periodically for new software versions, and apply these updates to your foundation. 
+This pipeline supports patch upgrades of Elastic Runtime and service tiles. These pipelines are intended to be kept running for as long as the deployment exists. 
+Upgrade pipelines check the Pivotal Network periodically for new software versions, and apply these updates to your foundation. 
 
 <!---Insert link to upgrade tile pipelines doc page, once it's completed--> 
