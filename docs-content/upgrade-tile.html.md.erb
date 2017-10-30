@@ -11,22 +11,24 @@ This pipeline supports patch upgrades of Elastic Runtime and service tiles.
 These pipelines are intended to be kept running for as long as the foundation exists. 
 Operators will need one pipeline per tile in your foundation, to keep every tile up to date.
 </br></br>
-It is important to note that the pipeline does not attempt to upgrade major or minor versions, only patch versions. 
+
+The Upgrade Tile pipeline does not attempt to upgrade major or minor versions, only patch versions. 
 This is because new major/minor upgrades generally require careful reading of the release notes to understand what changes will be introduced with these releases, as well as additional configuration of the tiles/Ops Manager.
 For example, if a new tile is released going from either --.n.-- to --.n+1.-- or n.--.-- to n+1.--.--, the pipeline will not upgrade to these tile versions. 
 The Upgrade Tile pipeline will only upgrade from --.--.n to --.--.n+1 tile versions.
 
 
-## <a id='usage'></a>Usage
+## <a id='usage'></a> Using the Upgrade Tile Pipeline
 
-1.	Log in to Pivotal Network and download the latest version of PCF Platform Automation with Concourse (PCF Pipelines).
-1.	Locate the `upgrade-tile` subdirectory within the file downloaded from Step 1.
-1.	(Optional) Configure Schedule.
+1.	Log in to the [PivNet](https://network.pivotal.io) and download the latest version of the PCF Platform Automation with Concourse (PCF Pipelines).
+1. Unzip the compressed file.
+1. Navigate to the `upgrade-tile` subdirectory.
+1.	Configure Schedule (Optional).
    In the `pipeline.yml` file there is a `schedule` resource pre-configured to trigger the pipeline every 30 minutes.
    The following parameters can be modified to achieve granular control over when the pipeline upgrade-tile pipeline will upgrade the Elastic Runtime and service tiles:
    	1.	`interval`: This parameter controls how often the pipeline is triggered.
    	It defaults to `30m` (30 minutes). Operators can set the `interval` parameter in seconds (s), minutes (m), or hours (h).
-   	1.	`start` and `stop`: These parameters control when the resource is allowed to trigger the pipeline.The start parameter defaults to 12:00 AM. The stop parameter defaults to 11:59 PM. Operators can set the `start` and `stop` parameters in either standard or military time.     
+   	1.	`start` and `stop`: These parameters control when the resource is allowed to trigger the pipeline. The start parameter defaults to 12:00 AM. The stop parameter defaults to 11:59 PM. Operators can set the `start` and `stop` parameters in either standard or military time.     
    	1.	`location`: This parameter is the timezone associated with the `start`, `stop`, and `days` parameters. This parameter defaults to `America/Los_Angeles`. The complete list of accepted timezones can be found in the [List of tz database time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) Wikipedia topic.
 	1.	`days`: This parameter controls which days of the week the resource is allowed to trigger the pipeline. 
 	Unless modified, this parameter triggers the pipeline everyday. 
@@ -41,4 +43,4 @@ The Upgrade Tile pipeline will only upgrade from --.--.n to --.--.n+1 tile versi
 
 1.	Navigate to the pipeline url and unpause the pipeline. The pipeline should then start triggering automatically.
 	1. To unpause the pipeline, do so through the Concourse UI or run the following command:
-`$ fly -t TARGET-NAME unpause-pipeline --pipeline PIPELINE-NAME` 
+`fly -t TARGET-NAME unpause-pipeline --pipeline PIPELINE-NAME` 
