@@ -7,14 +7,24 @@ This documentation discusses how to go about customizing pipelines.
 
 ## <a id='overview'></a>Overview
 
-While Pivotal encourages customers to modify pipelines, doing so makes it harder to update those modified pipelines. 
-To resolve this, Pivotal requires operators to utilize `yaml-patch.` 
+Pivotal encourages customers to modify pipelines. 
+However, modified pipelines are harder to update.
+`yaml-patch` mitigates this difficulty.
 
-With `yaml-patch`, operators can maintain their customizations as patch files. These patches are then applied to pipelines, while those pipelines are updated. 
+Operators can maintain their pipeline modifications as patch files through `yaml-patch`. 
+
+This tool supports all operations from the [RFC-6902](https://tools.ietf.org/html/rfc6902) memo for YAML documents instead of JSON.
+<!---With `yaml-patch`, patches are applied to pipelines, while those pipelines are updated.--> 
 
 As a best-practice, pipelines and patches should be stored using a version-control platform of choice, such as git.
 
+## <a id='using'></a>Using YAML Patch
+
+## <a id='sample'></a>Sample Modifications
+
 ## <a id='download'></a>Downloading YAML Patch
+
+
 <!---
 ## <a id='download'></a>Downloading YAML Patch
 by for example, adding notification tasks, replacing resources, etc., -->
