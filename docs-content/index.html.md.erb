@@ -3,15 +3,15 @@ title: PCF Pipelines
 owner: 
 ---
 
-This documentation describes how to download, configure, and modify PCF Pipelines.
+This documentation details the benefits and available versions of PCF Pipelines. 
 
 ## <a id='overview'></a>Overview
 
 PCF Pipelines are Concourse pipelines that install and upgrade Pivotal Cloud Foundry and its components. 
-Pipelines are portable end-to-end task chains.
-Each PCF Pipelines release contains bug fixes and new features. 
-Pipelines are base templates meant to be modified. 
-PCF Pipelines are utilized at Platform Dojos to automate the installing and upgrading of PCF. 
+These pipelines are base templates meant to be modified. 
+Operators utilize PCF Pipelines during Platform Dojos to automate the installing and upgrading of PCF. 
+
+The `install-pcf` pipeline deploys PCF for the operator's chosen IaaS.
 The PCF deployment installs the desired [Pivotal Reference Architecture] (https://docs.pivotal.io/pivotalcf/refarch/index.html). These Reference Architectures typically use three availability zones and high availability for components where possible. As such, these Reference Architecture are recommended for production environments.
 
 Each pcf-pipeline consists of a:
@@ -76,7 +76,7 @@ For more information on using Docker registries with PCF, see the [Using Docker 
 ## <a id='download'></a>Downloading PCF Pipelines
 The most stable version of Pipelines are available at [PivNet](https://network.pivotal.io/products/pcf-automation/) . 
 Access to Pipelines is restricted. 
-Please contact your account executive if you would like access to PCF Pipelines via PivNet. 
+Please contact your account executive if you would like access to PCF Pipelines via PivNet. Each PCF Pipelines release contains bug fixes and new features.
 
 ## <a id='install'></a>Install Pipelines
 Install Pipelines deploy PCF for your desired IaaS. 
@@ -131,7 +131,7 @@ On-premise private datacenter install pipelines, such as those for vSphere , do 
 </table>
 
 
-<!---Insert link to install pipelines doc page, once it's completed--> 
+<!---Insert link to vSphere AND GCP install pipelines docs pages, once they are completed--> 
 
 
 ## <a id='upgrade'></a>Upgrade Tile Pipelines
