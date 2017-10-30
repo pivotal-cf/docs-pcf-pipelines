@@ -1,29 +1,27 @@
 ---
-title: vSphere Install Pipelines
+title: Using the vSphere Install Pipeline
 owner: 
 ---
 
-This documentation describes how to use PCF Pipelines to deploy PCF for vSphere.
+Install Pipelines deploy PCF for the operator’s chosen IaaS. This documentation describes how to use PCF Pipelines to deploy PCF for vSphere. 
+The vSphere install pipeline does not provision any infrastructure resources such as networks, load balancers, and databases.
 
-## <a id='overview'></a>Overview
-The vSphere install pipeline does not provision any infrastructure resources such as networks, loadbalancers, and databases.
-
-## <a id='usage'></a>Usage
+## <a id='usage'></a> Installing PCF for vSphere with PCF Install Pipeline
 1. Log in to Pivotal Network and download the latest version of PCF Platform Automation with Concourse (PCF Pipelines).
 1.	Unzip the compressed file.
-1.	Locate the `install-pcf` sub-folder.
-1.	Locate the `vspshere` sub-folder.
+1.	Navigate to the `install-pcf` sub-folder.
+1.	Navigate to the the `vspshere` sub-folder.
 1.	Edit the `params.yml` file with your infrastructure details.
 1.	Log in and target your Concourse server instance:
-	`$ fly -t TARGET login --concourse-url TARGET-URL`
-1.	Run the following commands:
+	`fly -t TARGET login --concourse-url TARGET-URL`
+1.	Run the following command:
 	
-	<code>	$ fly -t TARGET-NAME set-pipeline --pipeline PIPELINE-NAME --config PIPELINE-NAME/IAAS-NAME/pipeline.yml --load-vars-from PIPELINE-NAME/IAAS-NAME/params.yml</code>
+	<code>fly -t TARGET-NAME set-pipeline --pipeline PIPELINE-NAME --config PIPELINE-NAME/IAAS-NAME/pipeline.yml --load-vars-from PIPELINE-NAME/IAAS-NAME/params.yml</code>
 
 	
 	</br>Replace `PIPELINE-NAME` and `IAAS-NAME` with the parenthetical values provided in the [Currently Supported Pipelines](index.html#support) section of the PCF Pipelines Overview topic. 
-1.	Navigate to the pipeline url and unpause the pipeline through the Concourse user interface. You can unpause the pipeline by running the following command:
-	`$ fly -t TARGET-NAME unpause-pipeline --pipeline PIPELINE-NAME`
+1.	Navigate to the pipeline url and unpause the pipeline through the Concourse user interface. You can also unpause the pipeline by running the following command:
+	`fly -t TARGET-NAME unpause-pipeline --pipeline PIPELINE-NAME`
 
 The first job will either trigger automatically or require manual intervention.
 
