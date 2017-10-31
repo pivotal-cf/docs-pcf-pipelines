@@ -7,7 +7,7 @@ This documentation details the benefits and available versions of PCF Pipelines.
 
 ## <a id='overview'></a>Overview
 
-PCF Pipelines are Concourse pipelines that install and upgrade Pivotal Cloud Foundry and its components. 
+PCF Pipelines are a collection of Concourse pipelines that install and upgrade Pivotal Cloud Foundry and its components. 
 These pipelines are base templates meant to be modified. 
 Operators utilize PCF Pipelines during Platform Dojos to automate the installing and upgrading of PCF. 
 
@@ -21,8 +21,8 @@ The `upgrade-tile` pipeline supports patch upgrades of Elastic Runtime and servi
 
 PCF Pipelines improve upon the manual experience of Installing and Upgrading PCF in the following ways:
   
-  + Using PCF Pipelines allows operators to continuously deploy PCF while still maintaining previously configured pipeline modifications.
-  + Using PCF Pipelines ensures that PCF platforms are more secure by applying a patch as soon as that patch is available on PivNet.
+  + PCF Pipelines allows operators to continuously deploy PCF while still maintaining previously configured pipeline modifications.
+  + PCF Pipelines ensures that PCF platforms are more secure by applying a patch as soon as that patch is available on PivNet.
 
 
 ## <a id='support'></a> Supported Pipelines
@@ -61,14 +61,14 @@ For more information on using Docker registries with PCF, see the [Using Docker 
 
 
 ## <a id='download'></a>Download PCF Pipelines
-The most stable version of Pipelines are available at [PivNet](https://network.pivotal.io/products/pcf-automation/) . 
+The most stable version of Pipelines are available at [PivNet](https://network.pivotal.io/products/pcf-automation/). Each PCF Pipelines release contains bug fixes and new features.
 Access to Pipelines is restricted. 
-Contact your account executive if you would like access to PCF Pipelines via PivNet. Each PCF Pipelines release contains bug fixes and new features.
+Contact your account executive if you would like access to PCF Pipelines via PivNet. 
 
 ## <a id='install'></a>Install Pipelines
-Install Pipelines deploy PCF for the operator's chosen IaaS. 
-For public cloud installs, such as GCP, the pipeline deploys the necessary infrastructure in the public cloud. This infrastructure includes networks, load balancers, and databases. These resources are used to deploy Ops Manager and Elastic Runtime. 
-On-premise private datacenter install pipelines, such as those for vSphere, do not provision any infrastructure resources.
+Install Pipelines deploy PCF for the operator's chosen IaaS. </br></br>
+For public cloud installs, such as GCP, the Install Pipeline deploys the necessary infrastructure in the public cloud. This infrastructure includes networks, load balancers, and databases. These resources are used to deploy Ops Manager and Elastic Runtime. </br></br>
+On-premise private datacenter Install Pipelines, such as the vSphere Install Pipeline, do not provision any infrastructure resources.
 The vSphere Install Pipeline only deploys Ops Manager and Elastic Runtime by using resources that are specified in the `params.yml` file of the pipeline.
 
 ### <a id='compatability'></a>Compatibility Matrix

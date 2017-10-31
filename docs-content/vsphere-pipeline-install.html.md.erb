@@ -3,25 +3,82 @@ title: Using the vSphere Install Pipeline
 owner: 
 ---
 
-Install Pipelines deploy PCF for the operator’s chosen IaaS. This documentation describes how to use PCF Pipelines to deploy PCF for vSphere. 
-The vSphere install pipeline does not provision any infrastructure resources such as networks, load balancers, and databases.
+## <a id='overview'></a> Overview
+Install Pipelines deploy Pivotal Cloud Foundry for the operator’s chosen IaaS.
+This documentation describes how to use PCF Pipelines to deploy PCF for vSphere. 
+The vSphere Install Pipeline does not provision any infrastructure resources such as networks, load balancers, and databases.
 
-## <a id='usage'></a> Installing PCF for vSphere with PCF Install Pipeline
+## <a id='overview'></a> Pipeline Configuration
+
+The vSphere Install Pipeline consists of a:
+
++ `params.yml` file: This file configures the pipeline’s environment variables. 
+This file should be stored in a credential management system, such as LastPass or Credhub because it contains credentials.
+Because patches are created frequently, automating the patch upgrade process decreases manual pipeline maintenance. 
+
++ `pipeline.yml` file: This file configures the jobs associated with this Install Pipeline. 
+Jobs declare the work associated with a pipeline.
+For more information on Jobs, see  the [Jobs](https://concourse.ci/concepts.html#jobs) topic in the Concourse documentation.
+
+This table describes the jobs associated with the vSphere Install Pipeline's `pipeline.yml` file:
+s
+<table>
+  <tr>
+    <th>Job</th>
+    <th>Purpose</th>
+  </tr>
+  <tr> 
+    <td><code>deploy-opsman</code></td>
+    <td>xyz</td>
+    <tr>
+    <td><code>configure-director</code>
+    <td>xyz</td>
+    </tr>
+    <tr>
+   <td><code>deploy-director</code></td>
+   <td>xyz</td>
+   </tr>
+   <tr>
+    <td><code>upload-ert</code></td>
+    <td>xyz</td>
+    </tr>
+    <tr>
+    <td><code>stage-ert</code></td>
+    <td>xyz</td>
+    </tr>
+    <td><code>deploy-ert</code></td>
+    <td>xyz</td>
+    <tr>
+    <td><code>wipe-env</code></td>
+    <td>xyz</td>
+    </tr>
+  </tr>
+</table>
+## <a id='usage'></a> Installing PCF on vSphere
 1. Log in to Pivotal Network and download the latest version of PCF Platform Automation with Concourse (PCF Pipelines).
-1.	Unzip the compressed file.
+1.	Unzip the TGZ file.
 1.	Navigate to the `install-pcf` sub-folder.
 1.	Navigate to the the `vspshere` sub-folder.
 1.	Edit the `params.yml` file with your infrastructure details.
 1.	Log in and target your Concourse server instance:
-	`fly -t TARGET login --concourse-url TARGET-URL`
-1.	Run the following command:
-	
-	<code>fly -t TARGET-NAME set-pipeline --pipeline PIPELINE-NAME --config PIPELINE-NAME/IAAS-NAME/pipeline.yml --load-vars-from PIPELINE-NAME/IAAS-NAME/params.yml</code>
+	`fly --target TARGET login --concourse-url CONCOURSE-URL`</br>
+	Where:
+	1. `TARGET`is the target name of your Concourse instance.
+	1. `CONCOURSE-URL` is the web address for your Concourse instance. 
 
-	
-	</br>Replace `PIPELINE-NAME` and `IAAS-NAME` with the parenthetical values provided in the [Currently Supported Pipelines](index.html#support) section of the PCF Pipelines Overview topic. 
-1.	Navigate to the pipeline url and unpause the pipeline through the Concourse user interface. You can also unpause the pipeline by running the following command:
-	`fly -t TARGET-NAME unpause-pipeline --pipeline PIPELINE-NAME`
+1.	Run the following command:
+	<code>fly --target TARGET-NAME set-pipeline --pipeline PIPELINE-NAME --config PIPELINE-NAME/IAAS-NAME/pipeline.yml --load-vars-from PIPELINE-NAME/IAAS-NAME/params.yml</code>
+	Where:
+	1. `TARGET`is the target name of your Concourse instance.
+	1. `PIPELINE-NAME` is the name of the pipeline in your Concourse instance. 
+	1. `IAAS-NAME` is the name of the IaaS, as detailed in the [Currently Supported Pipelines](index.html#support) section of the PCF Pipelines Overview topic. 
+1.	Navigate to the pipeline URL and unpause the pipeline through the Concourse user interface. 
+You can also unpause the pipeline by running the following command:
+	`fly --target TARGET-NAME unpause-pipeline --pipeline PIPELINE-NAME`
+	</br>Where:
+	1. `TARGET`is the target name of your Concourse instance.
+	1. `PIPELINE-NAME` is the name of the pipeline in your Concourse instance. 
+
 
 The first job will either trigger automatically or require manual intervention.
 
