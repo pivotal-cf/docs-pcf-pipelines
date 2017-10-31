@@ -71,6 +71,8 @@ For public cloud installs, such as GCP, the Install Pipeline deploys the necessa
 On-premise private datacenter Install Pipelines, such as the vSphere Install Pipeline, do not provision any infrastructure resources.
 The vSphere Install Pipeline only deploys Ops Manager and Elastic Runtime by using resources that are specified in the `params.yml` file of the pipeline.
 
+[vSphere Install Pipeline](vsphere-pipeline-install.html)
+
 ### <a id='compatability'></a>Compatibility Matrix
 
 <table>
@@ -115,12 +117,11 @@ The vSphere Install Pipeline only deploys Ops Manager and Elastic Runtime by usi
   </tr>
 </table>
 
-
-<!---Insert link to vSphere AND GCP install pipelines docs pages, once they are completed--> 
+vSphere Install 
 
 
 ## <a id='upgrade'></a>Upgrade Tile Pipelines
 This pipeline supports patch upgrades of Elastic Runtime and service tiles. These pipelines are intended to be kept running for as long as the deployment exists. 
 Upgrade pipelines check the Pivotal Network periodically for new software versions, and apply these updates to your foundation. 
 
-<!---Insert link to upgrade tile pipelines doc page, once it's completed--> 
+[Upgrade Tile Pipeline](upgrade-tile.html)
