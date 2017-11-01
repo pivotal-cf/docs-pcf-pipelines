@@ -20,7 +20,7 @@ The Upgrade Tile pipeline will only upgrade from --.--.n to --.--.n+1 tile versi
 
 ## <a id='usage'></a> Using the Upgrade Tile Pipeline
 
-1.	Log in to the [PivNet](https://network.pivotal.io) and download the latest version of the PCF Platform Automation with Concourse (PCF Pipelines).
+1.	Log in to the [PivNet](https://network.pivotal.io) and download the latest version of the **PCF Platform Automation with Concourse (PCF Pipelines)**.
 1. Unzip the TGZ file.
 1. Navigate to the `upgrade-tile` subdirectory.
 1.	Configure Schedule (Optional).
@@ -36,7 +36,7 @@ The Upgrade Tile pipeline will only upgrade from --.--.n to --.--.n+1 tile versi
 
 1.	Configure your `params.yml` file.
 	1.	This file contains the secrets necessary to communicate with PivNet and OpsMan. 
-	Edit the values marked "CHANGEME" and store this file in a credentials management system, such as CredHub.
+	Edit the values marked `CHANGEME` and store this file in a credentials management system, such as CredHub.
 
 1.	Set the pipeline, using your updated `params.yml` file:
 `fly -t TARGET-NAME set-pipeline -p PIPELINE-NAME -c pipeline.yml -l params.yml`
