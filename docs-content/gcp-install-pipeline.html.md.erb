@@ -72,13 +72,12 @@ This table describes the jobs associated with the GCP Install Pipeline's `pipeli
   * [GCP Compute API](https://console.cloud.google.com/apis/api/compute_component)
   * [GCP Storage API](https://console.cloud.google.com/apis/api/storage_component)
   * [GCP SQL API](https://console.cloud.google.com/apis/api/sql_component)
-  *[GCP DNS API](https://console.cloud.google.com/apis/api/dns)
+  * [GCP DNS API](https://console.cloud.google.com/apis/api/dns)
   * [GCP Cloud Resource Manager API](https://console.cloud.google.com/apis/api/cloudresourcemanager.googleapis.com/overview)
   * [GCP Storage Interopability](https://console.cloud.google.com/storage/settings)
 1. Create a bucket in Google Cloud Storage to store the Terraform state file. 
 1. Enable version control for this bucket by using the `gsutil` command line interface:
   1. `gcloud auth activate-service-account --key-file credentials.json && gsutil versioning set on gs://BUCKET-URL`
-
 1. Edit the values marked `CHANGEME` in the `params.yml` file. 
   1. For the <code>gcp\_service_account\_key</code>, create a new service account key that has the following IAM roles:
   * Cloud SQL Admin
@@ -97,8 +96,10 @@ You can also unpause the pipeline by running the following command:
   1. `PIPELINE-NAME` is the name of the pipeline in your Concourse instance. 
 1. Trigger the `bootstrap-terraform-state` job manually by running the following command:
   1. `fly --target TARRGET-NAME trigger-job --job PIPELINE-NAME/bootstrap-terraform-state`
-1. Trigger the `create-infrastructure` job bu running the following command:
+1. Trigger the `create-infrastructure` job by running the following command:
   1. `fly --target TARRGET-NAME trigger-job --job PIPELINE-NAME/create-infrastructure`
+  This job outputs the DNS Settings necessary required by GCP.
+1. In the GCP Console Dashboard, navigate to **Network Services** > **Cloud DNS** > **Create Zone** and edit  your DNS Settings based on the output from the previous step.
 
 ## <a id='known'></a> Known Issues
 ###<a id='create'></a> Create Infrastructure job trying to delete SSL cert in use
