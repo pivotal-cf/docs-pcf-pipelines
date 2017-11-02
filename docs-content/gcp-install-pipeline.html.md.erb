@@ -1,5 +1,5 @@
 ---
-title: Using the vSphere Install Pipeline
+title: Using the GCP Install Pipeline
 owner: 
 ---
 
@@ -22,7 +22,7 @@ Because patches are created frequently, automating the patch upgrade process dec
 Jobs declare the work associated with a pipeline.
 For more information on Jobs, see  the [Jobs](https://concourse.ci/concepts.html#jobs) topic in the Concourse documentation.
 
-This table describes the jobs associated with the vSphere Install Pipeline's `pipeline.yml` file:
+This table describes the jobs associated with the GCP Install Pipeline's `pipeline.yml` file:
 
 <table>
   <tr>
@@ -48,10 +48,13 @@ This table describes the jobs associated with the vSphere Install Pipeline's `pi
     <td>This job deploys Elastic Runtime.</td>
     <tr>
     <td><code>wipe-env</code></td>
-    <td>This job will tear down the Pivotal Cloud Foundry deployment.</td>
+    <td>This job will tear down your Pivotal Cloud Foundry deployment. </td>
     </tr>
     <tr>
-<td><code></code></td>
+  <td><code>bootstrap-terraform-state</code></td>
+  <td>ddd</td>
+   <td><code>create-infrastructure</code></td>
+  <td>ddd</td>
     </tr>
   </tr>
 </table>
