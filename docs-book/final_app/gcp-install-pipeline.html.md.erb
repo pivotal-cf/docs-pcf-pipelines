@@ -1,0 +1,57 @@
+---
+title: Using the vSphere Install Pipeline
+owner: 
+---
+
+## <a id='overview'></a> Overview
+Install Pipelines deploy Pivotal Cloud Foundry for the operator’s chosen IaaS.
+This documentation describes how to use PCF Pipelines to deploy PCF for GCP. 
+
+<!---![Concourse Pipeline](embed.png)-->
+This pipeline uses Terraform to create all the infrastructure required to run PCF deployment with 3 Availability Zones on GCP according to the Reference Architecture for Pivotal Cloud Foundry on GCP.
+
+## <a id='config'></a> Pipeline Configuration
+
+The GCP Install Pipeline consists of a:
+
++ `params.yml` file: This file configures the pipeline’s environment variables. 
+This file should be stored in a credential management system, such as LastPass or Credhub because it contains credentials.
+Because patches are created frequently, automating the patch upgrade process decreases manual pipeline maintenance. 
+
++ `pipeline.yml` file: This file configures the jobs associated with this Install Pipeline. 
+Jobs declare the work associated with a pipeline.
+For more information on Jobs, see  the [Jobs](https://concourse.ci/concepts.html#jobs) topic in the Concourse documentation.
+
+This table describes the jobs associated with the vSphere Install Pipeline's `pipeline.yml` file:
+
+<table>
+  <tr>
+    <th>Job</th>
+    <th>Purpose</th>
+  </tr>
+  <tr> 
+    <td><code>upload-opsman-image</code></td>
+    <td>This job deploys OpsMan image.</td>
+    <tr>
+    <td><code>configure-director</code>
+    <td>This job configures Ops Manager Director.</td>
+    </tr>
+    <tr>
+   <td><code>deploy-director</code></td>
+   <td>This job deploys the Ops Manager Director.</td>
+   </tr>
+   <tr>
+    <td><code>upload-ert</code></td>
+    <td>This job uploads Elastic Runtime.</td>
+    </tr>
+    <td><code>deploy-ert</code></td>
+    <td>This job deploys Elastic Runtime.</td>
+    <tr>
+    <td><code>wipe-env</code></td>
+    <td>This job will tear down the Pivotal Cloud Foundry deployment.</td>
+    </tr>
+    <tr>
+<td><code></code></td>
+    </tr>
+  </tr>
+</table>
