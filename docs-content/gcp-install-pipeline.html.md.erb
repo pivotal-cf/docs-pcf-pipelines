@@ -7,8 +7,14 @@ owner:
 Install Pipelines deploy Pivotal Cloud Foundry for the operator’s chosen IaaS.
 This documentation describes how to use PCF Pipelines to deploy PCF for GCP. 
 
-<!---![Concourse Pipeline](embed.png)-->
-This pipeline uses Terraform to create all the infrastructure required to run PCF deployment with 3 Availability Zones on GCP according to the Reference Architecture for Pivotal Cloud Foundry on GCP.
+<!---[Concourse Pipeline](embed.png)-->
+This pipeline uses Terraform to create all of the infrastructure required to run PCF deployment with 3 Availability Zones on GCP according to the Reference Architecture for Pivotal Cloud Foundry on GCP.
+
+The GCP Install Pipeline downloads artifacts from DockerHub (czero/cflinuxfs2 and custom
+docker-image resources) and the configured Google Cloud Storage bucket
+(terraform.tfstate file).
+
+<!---add in note about terraform file-->
 
 ## <a id='config'></a> Pipeline Configuration
 
@@ -31,7 +37,7 @@ This table describes the jobs associated with the GCP Install Pipeline's `pipeli
   </tr>
   <tr> 
     <td><code>upload-opsman-image</code></td>
-    <td>This job deploys OpsMan image.</td>
+    <td>This job will automatically uploads the latest matching version of Ops Manager.</td>
     <tr>
     <td><code>configure-director</code>
     <td>This job configures Ops Manager Director.</td>
@@ -53,8 +59,56 @@ This table describes the jobs associated with the GCP Install Pipeline's `pipeli
     <tr>
   <td><code>bootstrap-terraform-state</code></td>
   <td>ddd</td>
-   <td><code>create-infrastructure</code></td>
+</tr>
+  <tr>
+  <td><code>create-infrastructure</code></td>
   <td>ddd</td>
     </tr>
   </tr>
 </table>
+
+## <a id='usage'></a> Installing PCF on GCP
+1. Enable the following APIs within Google Cloud Platform:
+  * [GCP Compute API](https://console.cloud.google.com/apis/api/compute_component)
+  * [GCP Storage API](https://console.cloud.google.com/apis/api/storage_component)
+  * [GCP SQL API](https://console.cloud.google.com/apis/api/sql_component)
+  *[GCP DNS API](https://console.cloud.google.com/apis/api/dns)
+  * [GCP Cloud Resource Manager API](https://console.cloud.google.com/apis/api/cloudresourcemanager.googleapis.com/overview)
+  * [GCP Storage Interopability](https://console.cloud.google.com/storage/settings)
+1. Create a bucket in Google Cloud Storage to store the Terraform state file. 
+1. Enable version control for this bucket by using the `gsutil` command line interface:
+  1. `gcloud auth activate-service-account --key-file credentials.json && gsutil versioning set on gs://BUCKET-URL`
+
+1. Edit the values marked `CHANGEME` in the `params.yml` file. 
+  1. For the <code>gcp\_service_account\_key</code>, create a new service account key that has the following IAM roles:
+  * Cloud SQL Admin
+  * Compute Instance Admin (v1)
+  * Compute Network Admin
+  * Compute Security Admin
+  * DNS Administrator
+  * Storage Admin
+1. Set the pipeline by running the following command:
+  `fly -t lite set-pipeline -p deploy-pcf -c pipeline.yml -l params.yml`
+1.  Navigate to the pipeline URL and unpause the pipeline through the Concourse user interface. 
+You can also unpause the pipeline by running the following command:
+  `fly --target TARGET-NAME unpause-pipeline --pipeline PIPELINE-NAME`
+  </br>Where:
+  1. `TARGET`is the target name of your Concourse instance.
+  1. `PIPELINE-NAME` is the name of the pipeline in your Concourse instance. 
+1. Trigger the `bootstrap-terraform-state` job manually by running the following command:
+  1. `fly --target TARRGET-NAME trigger-job --job PIPELINE-NAME/bootstrap-terraform-state`
+1. Trigger the `create-infrastructure` job bu running the following command:
+  1. `fly --target TARRGET-NAME trigger-job --job PIPELINE-NAME/create-infrastructure`
+
+## <a id='known'></a> Known Issues
+###<a id='known'></a> Create Infrastructure job trying to delete SSL cert in use
+Running the `create-infrastructure` job might genererate the following error:
+
+<!---Change to style guide appropriate syntax-->
+
+<code>
+google_compute_ssl_certificate.ssl-cert (destroy): 1 error(s) occurred: google_compute_ssl_certificate.ssl-cert: Error deleting ssl certificate: googleapi: Error 400: The ssl_certificate resource 'projects/<redacted>/global/sslCertificates/<redacted>-gcp-lb-cert' is already being used by 'projects/<redacted>/global/targetHttpsProxies/<redacted>-gcp-https-proxy', resourceInUseByAnotherResource
+</code>
+
+## <a id='troubleshooting'></a> Troubleshooting
+
