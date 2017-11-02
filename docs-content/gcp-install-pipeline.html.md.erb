@@ -101,14 +101,33 @@ You can also unpause the pipeline by running the following command:
   1. `fly --target TARRGET-NAME trigger-job --job PIPELINE-NAME/create-infrastructure`
 
 ## <a id='known'></a> Known Issues
-###<a id='known'></a> Create Infrastructure job trying to delete SSL cert in use
+###<a id='create'></a> Create Infrastructure job trying to delete SSL cert in use
 Running the `create-infrastructure` job might genererate the following error:
 
 <!---Change to style guide appropriate syntax-->
 
-<code>
-google_compute_ssl_certificate.ssl-cert (destroy): 1 error(s) occurred: google_compute_ssl_certificate.ssl-cert: Error deleting ssl certificate: googleapi: Error 400: The ssl_certificate resource 'projects/<redacted>/global/sslCertificates/<redacted>-gcp-lb-cert' is already being used by 'projects/<redacted>/global/targetHttpsProxies/<redacted>-gcp-https-proxy', resourceInUseByAnotherResource
-</code>
+```google_compute_ssl_certificate.ssl-cert (destroy): 1 error(s) occurred: google_compute_ssl_certificate.ssl-cert: Error deleting ssl certificate: googleapi: Error 400: The ssl_certificate resource 'projects/<redacted>/global/sslCertificates/<redacted>-gcp-lb-cert' is already being used by 'projects/<redacted>/global/targetHttpsProxies/<redacted>-gcp-https-proxy', resourceInUseByAnotherResource```
+
+<!--- |- -->
+
+If this occurs, update your `params.yml` file to supply the certs that were generated in the `params.yml` file when you triggered the `create-infrastructure` job.
+
+###<a id ='wipe'></a> Wipe Environment Job
++ The `wipe-env` job does not destroy installed services. 
+VMs that were created as a result of installing GCP with the Install Pipeline cannot destroyed by running the `wipe-env` job. As a workaround, delete services before running the `wipe-env` job. Otherwise, the `wipe-env` job cannot complete.
+
++ The `wipe-env` job does not destroy the BOSH Director VM. 
+As a workaround, delete the BOSH Director VM before running the `wipe-env` job. Otherwise, the `wipe-env` job cannot complete.
+
+###<a id ='allow-ssh'></a> Allow SSH to Ops Manager without a Jumpbox
+
++ There is no jumpbox installed as part of the Terraform scripts.
+If you need to SSH into the Ops Manager VM add the 1allow-ssh` tag to the network access tags for that VM.
+Add an SSH key to the instance or  use the gcloud cli that adds the SSH key automatically. 
+
+###<a id='authorized-networks'></a> Cloud SQL Authorized Networks
+
+Cloud SQL requires access to public networks. 
 
 ## <a id='troubleshooting'></a> Troubleshooting
 
