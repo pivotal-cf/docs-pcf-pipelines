@@ -45,8 +45,6 @@ The following pipelines are considered production-ready and are endorsed Pivotal
   </tr>
 </table>
 
-
-
 ## <a id="reqs"></a>Prerequisites
 The following are prerequisites for using PCF Pipelines:
 
@@ -75,6 +73,9 @@ The vSphere Install Pipeline only deploys Ops Manager and Elastic Runtime by usi
 
 ### <a id='compatability'></a>Compatibility Matrix
 
+<p class="note"><strong>Note:</strong> ERT v1.11.14 is not compatible with pcf-pipelines
+</p>
+
 <table>
   <tr>
     <th>IaaS</th>
@@ -116,9 +117,6 @@ The vSphere Install Pipeline only deploys Ops Manager and Elastic Runtime by usi
     <td>1.11.8</td>
   </tr>
 </table>
-
-vSphere Install 
-
 
 ## <a id='upgrade'></a>Upgrade Tile Pipelines
 This pipeline supports patch upgrades of Elastic Runtime and service tiles. These pipelines are intended to be kept running for as long as the deployment exists. 

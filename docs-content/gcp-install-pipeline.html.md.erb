@@ -37,7 +37,7 @@ This table describes the jobs associated with the GCP Install Pipeline's `pipeli
   </tr>
   <tr> 
     <td><code>upload-opsman-image</code></td>
-    <td>This job will automatically uploads the latest matching version of Ops Manager.</td>
+    <td>This job automatically uploads the latest matching version of Ops Manager.</td>
     <tr>
     <td><code>configure-director</code>
     <td>This job configures Ops Manager Director.</td>
@@ -54,15 +54,15 @@ This table describes the jobs associated with the GCP Install Pipeline's `pipeli
     <td>This job deploys Elastic Runtime.</td>
     <tr>
     <td><code>wipe-env</code></td>
-    <td>This job will tear down your Pivotal Cloud Foundry deployment. </td>
+    <td>This job teard down your Pivotal Cloud Foundry deployment. </td>
     </tr>
     <tr>
   <td><code>bootstrap-terraform-state</code></td>
-  <td>ddd</td>
+  <td>This job downloads artifacts from DockerHub (czero/cflinuxfs2 and custom.</td>
 </tr>
   <tr>
   <td><code>create-infrastructure</code></td>
-  <td>ddd</td>
+  <td>This job creates all of the infrastructure required to run the PCF deployment.</td>
     </tr>
   </tr>
 </table>
@@ -128,7 +128,40 @@ Add an SSH key to the instance or  use the gcloud cli that adds the SSH key auto
 
 ###<a id='authorized-networks'></a> Cloud SQL Authorized Networks
 
-Cloud SQL requires access to public networks. 
+Google Cloud Proxy is not yet available on BOSH-deployed VMs and Cloud SQL requires access to public networks. To resolve this, the Google Install Pipleine adds `0.0.0.0/0` to the authorized set of authorized networks  for the Cloud SQL Instance. 
 
 ## <a id='troubleshooting'></a> Troubleshooting
+
+**Error Message:**
+
+```
+google_sql_user.diego: Creating...
+  host:     "" => "%"
+  instance: "" => "ph-concourse-terraform-piglet"
+  name:     "" => "admin"
+  password: "<sensitive>" => "<sensitive>"
+Error applying plan:
+
+1 error(s) occurred:
+
+* google_sql_user.diego: 1 error(s) occurred:
+
+* google_sql_user.diego: Error, failure waiting for insertion of admin into ph-concourse-terraform-piglet: Error waiting      for Insert User (op 44940cc3-df8a-4d86-9bb8-853540fa4f35): googleapi: Error 404: The Cloud SQL instance operation does not    exist., operationDoesNotExist
+```
+**Solution:** You cannot use "admin" as a username for MySQL.
+
+**Error Message:**
+
+```
+“{”errors”:{“.properties.networking_point_of_entry.external_ssl.ssl_ciphers”:[“Value can’t be blank”]}}”
+```
+**Solution:** PCF Pipelines are not compatible with ERT 1.11.14. Redeploy with a [compatible version](index.html#compatability).
+
+**Error Message:**
+
+```
+Error
+pcf-pipelines/tasks/stage-product/task.sh: line 19: ./pivnet-product/metadata.json: No such file or directory
+```
+**Solution:** You are using a resource that was downloaded from an separate repository and not from PivNet. 
 
