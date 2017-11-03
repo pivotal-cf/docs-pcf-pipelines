@@ -8,22 +8,159 @@ This documentation discusses how to go about customizing pipelines.
 ## <a id='overview'></a>Overview
 
 Pivotal encourages customers to modify pipelines. 
-However, modified pipelines are harder to update.
-
-Operators can maintain their pipeline modifications as patch files through `yaml-patch`. 
+Operators can maintain their pipeline modifications as "patch" files through **YAML Patch**. 
 
 This tool supports all operations from the [RFC-6902](https://tools.ietf.org/html/rfc6902) memo for YAML documents instead of JSON.
-<!---With `yaml-patch`, patches are applied to pipelines, while those pipelines are updated.--> 
+With yaml-patch, patches are applied to pipelines, while those pipelines are updated.
 
 As a best-practice, pipelines and patches should be stored using a version-control platform of choice, such as git.
 
-## <a id='using'></a>Using YAML Patch
+Executing the `yaml-path` command is as follows:
+`cat PIPELINE-FILE-PATH | yaml-patch --override MODIFICATION-FILE-PATH > result.yml`
+Where:
+	PIPELINE-FILE-PATH 
+
+
+You then set the pipeline
+
+`fly --target TARGET set-pipeline -p upgrade-your-tile -c pipeline.yml -l params.yml`
+
+
+## <a id='download'></a>Downloading YAML Patch
+The most stable version of YAML Patch is available on [PivNet](https://network.pivotal.io/).
 
 ## <a id='sample'></a>Sample Modifications
+There are many ways to modify PCF Pipelines. 
 
-## <a id='download'></a>Downloading YAML Patch
+### <a id='add-job-after'></a> Add a task to a job
 
+If you want to replace a task in a `pipeline.yml` file:
 
-<!---
-## <a id='download'></a>Downloading YAML Patch
-by for example, adding notification tasks, replacing resources, etc., -->
+Review your `pipeline.yml` file to determine which task you'd like to replace. 
+
+```
+---  
+jobs:  
+- name: my-job  
+  plan:  
+  - get: my-resource  
+  - task: first-task  
+    file: task1.yml  
+  - task: second-task  
+    file: task2.yml    
+```
+Create a YML file containing the task you would like added.
+
+```
+- op: add  
+  path: /jobs/name=my-job/plan/-  
+  value:  
+    task: third-task  
+    file: task3.yml  
+```
+
+Run the following command to create to the `result.yml` patch file: 
+`cat PIPELINE-FILE-PATH | yaml-patch -o ADD-TASK.yml > RESULT-YAML-FILE-PATH`
+
+The resulting patch file, `result.yml`, will look as such:
+
+```
+---  
+jobs:  
+- name: my-job  
+  plan:  
+  - get: my-resource  
+  - task: first-task  
+    file: task1.yml  
+  - task: second-task  
+    file: task2.yml    
+```
+### <a id= 'adding-task-specific'></a> Add a job in a specific place
+Review your `pipeline.yml` file to determine which task you'd like to replace. 
+
+```
+---  
+jobs:  
+- name: my-job  
+  plan:  
+  - get: my-resource  
+  - task: first-task  
+    file: task1.yml  
+  - task: last-task  
+    file: taskn.yml   
+```
+Create a YML file containing the task you would like added.
+
+```
+- op: replace  
+  path: /jobs/name=my-job/plan/task=first-task   
+  value:  
+    do:  
+    - task: first-task  
+      file: task1.yml  
+    - task: second-task   
+      file: task2.yml  
+```
+
+Run the following command to create to the `result.yml` patch file: 
+`cat PIPELINE-FILE-PATH | yaml-patch -o ADD-TASK.yml > RESULT-YAML-FILE-PATH`
+
+The resulting patch file, `result.yml`, will look as such:
+
+```
+---  
+jobs:  
+- name: my-job  
+  plan:  
+  - get: my-resource  
+  do:  
+    - task: first-task  
+      file: task1.yml  
+    - task: second-task   
+      file: task2.yml   
+  - task: last-task   
+    file: taskn.yml    
+```
+### <a id= 'change-trigger'></a> Change the Trigger flag of a job resource
+
+Review your `pipeline.yml` file to determine which task you'd like to replace. 
+
+```
+---  
+jobs:  
+- name: my-job  
+  plan:  
+  - get: my-resource  
+    trigger: true
+  - get: her-resource  
+    trigger: true
+  - task: first-task  
+    file: task1.yml  
+```
+Create a YML file containing the task you would like added.
+
+```
+- op: replace
+  path: /jobs/name=my-job/plan/get=my-resource/trigger
+  value: false
+```
+
+Run the following command to create to the `result.yml` patch file: 
+`cat PIPELINE-FILE-PATH | yaml-patch -o ADD-TASK.yml > RESULT-YAML-FILE-PATH`
+
+The resulting patch file, `result.yml`, will look as such:
+
+```
+---  
+jobs:  
+- name: my-job  
+  plan:  
+  - get: my-resource  
+  do:  
+    - task: first-task  
+      file: task1.yml  
+    - task: second-task   
+      file: task2.yml   
+  - task: last-task   
+    file: taskn.yml    
+```
