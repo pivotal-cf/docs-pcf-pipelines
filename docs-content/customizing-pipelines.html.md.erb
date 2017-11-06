@@ -8,35 +8,23 @@ This documentation discusses how to go about customizing pipelines.
 ## <a id='overview'></a>Overview
 
 Pivotal encourages customers to modify pipelines. 
-Operators can maintain their pipeline modifications as "patch" files through **YAML Patch**. 
-
-This tool supports all operations from the [RFC-6902](https://tools.ietf.org/html/rfc6902) memo for YAML documents instead of JSON.
-With yaml-patch, patches are applied to pipelines, while those pipelines are updated.
+Operators can maintain those pipeline modifications as "patch" files by using YAML Patch.
+YAML Patch is an automated means of applying your local customizations to one or more `pipeline.yml` files when there is a new update of PCF Pipelines.
+After resetting the pipeline, those patches are applied to pipelines, while those pipelines are updated.
 
 As a best-practice, pipelines and patches should be stored using a version-control platform of choice, such as git.
 
-Executing the `yaml-path` command is as follows:
-`cat PIPELINE-FILE-PATH | yaml-patch --override MODIFICATION-FILE-PATH > result.yml`
-Where:
-	PIPELINE-FILE-PATH 
-
-
-You then set the pipeline
-
-`fly --target TARGET set-pipeline -p upgrade-your-tile -c pipeline.yml -l params.yml`
-
+YAML Patch supports all of the operations from the [RFC-6902](https://tools.ietf.org/html/rfc6902) memo but for YAML documents, instead of JSON.
 
 ## <a id='download'></a>Downloading YAML Patch
 The most stable version of YAML Patch is available on [PivNet](https://network.pivotal.io/).
 
 ## <a id='sample'></a>Sample Modifications
-There are many ways to modify PCF Pipelines. 
+There are many ways to modify PCF Pipelines. Below are several frequently implemented modifications:  
 
-### <a id='add-job-after'></a> Add a task to a job
+### <a id='add-task'></a> Add a task to a job
 
-If you want to replace a task in a `pipeline.yml` file:
-
-Review your `pipeline.yml` file to determine which task you'd like to replace. 
+If you want to add a task in the `pipeline.yml` file below:
 
 ```
 ---  
@@ -49,7 +37,10 @@ jobs:
   - task: second-task  
     file: task2.yml    
 ```
-Create a YML file containing the task you would like added.
+
+  <ol>
+  <li> 
+Create a YML file containing the task you would like to add to your `pipeline.yml` file. In this example, this modification file will be referred to as, `add-task.yml`
 
 ```
 - op: add  
@@ -59,10 +50,16 @@ Create a YML file containing the task you would like added.
     file: task3.yml  
 ```
 
-Run the following command to create to the `result.yml` patch file: 
+<li> 
+Run the following command to create the `result.yml` patch file: 
 `cat PIPELINE-FILE-PATH | yaml-patch -o ADD-TASK.yml > RESULT-YAML-FILE-PATH`
 
-The resulting patch file, `result.yml`, will look as such:
+Where:
+
+  1. `PIPELINE-FILE-PATH` is the file path of the `pipeline.yml` file you are modifying.
+  1. `RESULT-YAML-FILE-PATH` is the file path of the resulting patch file. 
+
+The resulting patch file (`result.yml`) will look as such:
 
 ```
 ---  
@@ -73,10 +70,23 @@ jobs:
   - task: first-task  
     file: task1.yml  
   - task: second-task  
-    file: task2.yml    
+    file: task2.yml  
+  - task: third-task  
+    file: task3.yml  
 ```
+
+<li> Set the pipeline with the `result.yml` patch file instead of the `pipeline.yml` file. 
+
+`fly --target TARGET set-pipeline --config result.yml --pipeline PIPELINE-NAME`
+
+Where:
+
+  1. `TARGET`is the target name of your Concourse instance.
+  1. `PIPELINE-NAME` is the name of the pipeline in your Concourse instance. 
+</ol>
+
 ### <a id= 'adding-task-specific'></a> Add a job in a specific place
-Review your `pipeline.yml` file to determine which task you'd like to replace. 
+If you want to add a task in a specific place within the `pipeline.yml` file below:
 
 ```
 ---  
@@ -89,7 +99,10 @@ jobs:
   - task: last-task  
     file: taskn.yml   
 ```
-Create a YML file containing the task you would like added.
+<ol>
+<li> Create a YML file containing the task you would like to add your `pipeline.yml` file. In this example, this modification file will be referred to as, `replace-task.yml`. 
+</br>
+The combined use of the `replace` operation from YAML Patch and the tasks/resources grouping in Concourse inserts tasks into a job.
 
 ```
 - op: replace  
@@ -102,8 +115,8 @@ Create a YML file containing the task you would like added.
       file: task2.yml  
 ```
 
-Run the following command to create to the `result.yml` patch file: 
-`cat PIPELINE-FILE-PATH | yaml-patch -o ADD-TASK.yml > RESULT-YAML-FILE-PATH`
+<li> Run the following command to create the `result.yml` patch file: 
+`cat PIPELINE-FILE-PATH | yaml-patch --override replace-task.yml > RESULT-YAML-FILE-PATH`
 
 The resulting patch file, `result.yml`, will look as such:
 
