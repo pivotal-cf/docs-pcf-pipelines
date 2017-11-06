@@ -12,11 +12,10 @@ The vSphere Install Pipeline does not provision any infrastructure resources suc
 
 The vSphere Install Pipeline consists of a:
 
-+ `params.yml` file: This file configures the pipeline’s environment variables. 
-This file should be stored in a credential management system, such as LastPass or Credhub because it contains credentials.
-Because patches are created frequently, automating the patch upgrade process decreases manual pipeline maintenance. 
++ parameters file (`params.yml`). This file configures the pipeline’s environment variables. 
+This file should be stored in a credential management system, such as LastPass or Credhub, because it contains credentials. 
 
-+ `pipeline.yml` file: This file configures the jobs associated with this Install Pipeline. 
++ pipelines operations (`pipeline.yml`) file. This file configures the jobs associated with this Install Pipeline. 
 Jobs declare the work associated with a pipeline.
 For more information on Jobs, see  the [Jobs](https://concourse.ci/concepts.html#jobs) topic in the Concourse documentation.
 
@@ -63,20 +62,20 @@ This table describes the jobs associated with the vSphere Install Pipeline's `pi
 1.	Log in and target your Concourse server instance:
 	`fly --target TARGET login --concourse-url CONCOURSE-URL`</br>
 	Where:
-	1. `TARGET`is the target name of your Concourse instance.
+	1. `TARGET-NAME`is the target name of your Concourse instance.
 	1. `CONCOURSE-URL` is the web address for your Concourse instance. 
 
-1.	Run the following command:
+1.	Run the following command to set the pipeline:
 	<code>fly --target TARGET-NAME set-pipeline --pipeline PIPELINE-NAME --config PIPELINE-NAME/IAAS-NAME/pipeline.yml --load-vars-from PIPELINE-NAME/IAAS-NAME/params.yml</code>
 	Where:
-	1. `TARGET`is the target name of your Concourse instance.
+	1. `TARGET-NAME`is the target name of your Concourse instance.
 	1. `PIPELINE-NAME` is the name of the pipeline in your Concourse instance. 
 	1. `IAAS-NAME` is the name of the IaaS, as detailed in the [Currently Supported Pipelines](index.html#support) section of the PCF Pipelines Overview topic. 
 1.	Navigate to the pipeline URL and unpause the pipeline through the Concourse user interface. 
 You can also unpause the pipeline by running the following command:
 	`fly --target TARGET-NAME unpause-pipeline --pipeline PIPELINE-NAME`
 	</br>Where:
-	1. `TARGET`is the target name of your Concourse instance.
+	1. `TARGET-NAME`is the target name of your Concourse instance.
 	1. `PIPELINE-NAME` is the name of the pipeline in your Concourse instance. 
 
 
