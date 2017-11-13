@@ -34,9 +34,7 @@ The Upgrade Tile pipeline will only upgrade from --.--.n to --.--.n+1 tile versi
 	Unless modified, this parameter triggers the pipeline everyday. 
    The accepted values for this parameter are: `Monday`, `Tuesday,` `Wednesday`, `Thursday`, `Friday`, `Saturday`, `Sunday`.
 
-1.	Configure your `params.yml` file.
-	1.	This file contains the secrets necessary to communicate with PivNet and OpsMan. 
-	Edit the values marked `CHANGEME` and store this file in a credentials management system, such as CredHub.
+1.	Configure your `params.yml` file.This file contains the secrets necessary to communicate with PivNet and OpsMan. Edit the values marked `CHANGEME` and store this file in a credentials management system, such as CredHub.
 
 1.	Set the pipeline, using your updated `params.yml` file:
 `fly -t TARGET-NAME set-pipeline -p PIPELINE-NAME -c pipeline.yml -l params.yml`
@@ -45,7 +43,7 @@ The Upgrade Tile pipeline will only upgrade from --.--.n to --.--.n+1 tile versi
    1. `PIPELINE-NAME` is the name of the pipeline in your Concourse instance. 
 
 1.	Navigate to the pipeline url and unpause the pipeline. The pipeline should then start triggering automatically.
-	1. To unpause the pipeline, do so through the Concourse UI or run the following command:
+</br>To unpause the pipeline, do so through the Concourse UI or run the following command:
 `fly -t TARGET-NAME unpause-pipeline --pipeline PIPELINE-NAME` 
    Where:
    1. `TARGET`is the target name of your Concourse instance.

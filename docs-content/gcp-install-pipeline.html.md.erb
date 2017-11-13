@@ -20,11 +20,10 @@ docker-image resources) and the configured Google Cloud Storage bucket
 
 The GCP Install Pipeline consists of a:
 
-+ `params.yml` file: This file configures the pipeline’s environment variables. 
++ parameters file. (`params.yml`). This file configures the pipeline’s environment variables. 
 This file should be stored in a credential management system, such as LastPass or Credhub because it contains credentials.
-Because patches are created frequently, automating the patch upgrade process decreases manual pipeline maintenance. 
 
-+ `pipeline.yml` file: This file configures the jobs associated with this Install Pipeline. 
++ pipelines operataions file (`pipeline.yml`). This file configures the jobs associated with this Install Pipeline. 
 Jobs declare the work associated with a pipeline.
 For more information on Jobs, see  the [Jobs](https://concourse.ci/concepts.html#jobs) topic in the Concourse documentation.
 
@@ -87,29 +86,40 @@ This table describes the jobs associated with the GCP Install Pipeline's `pipeli
   * DNS Administrator
   * Storage Admin
 1. Set the pipeline by running the following command:
-  `fly -t lite set-pipeline -p deploy-pcf -c pipeline.yml -l params.yml`
+  `fly --target TARGET-NAME set-pipeline --p PIPELINE-NAME --config pipeline.yml -l params.yml`
+  </br>Where:
+  1. `TARGET-NAME`is the target name of your Concourse instance.
+  1. `PIPELINE-NAME` is the name of the pipeline in your Concourse instance. 
+
 1.  Navigate to the pipeline URL and unpause the pipeline through the Concourse user interface. 
 You can also unpause the pipeline by running the following command:
   `fly --target TARGET-NAME unpause-pipeline --pipeline PIPELINE-NAME`
   </br>Where:
-  1. `TARGET`is the target name of your Concourse instance.
+  1. `TARGET-NAME`is the target name of your Concourse instance.
   1. `PIPELINE-NAME` is the name of the pipeline in your Concourse instance. 
 1. Trigger the `bootstrap-terraform-state` job manually by running the following command:
-  1. `fly --target TARRGET-NAME trigger-job --job PIPELINE-NAME/bootstrap-terraform-state`
+  `fly --target TARRGET-NAME trigger-job --job PIPELINE-NAME/bootstrap-terraform-state`
+   </br>Where:
+  1. `TARGET-NAME`is the target name of your Concourse instance.
+  1. `PIPELINE-NAME` is the name of the pipeline in your Concourse instance. 
 1. Trigger the `create-infrastructure` job by running the following command:
   1. `fly --target TARRGET-NAME trigger-job --job PIPELINE-NAME/create-infrastructure`
-  This job outputs the DNS Settings necessary required by GCP.
+   </br>Where:
+  1. `TARGET-NAME`is the target name of your Concourse instance.
+  1. `PIPELINE-NAME` is the name of the pipeline in your Concourse instance. 
+</br>This job outputs the DNS Settings necessary required by GCP.
+
 1. In the GCP Console Dashboard, navigate to **Network Services** > **Cloud DNS** > **Create Zone** and edit  your DNS Settings based on the output from the previous step.
 
 ## <a id='known'></a> Known Issues
 ###<a id='create'></a> Create Infrastructure job trying to delete SSL cert in use
 Running the `create-infrastructure` job might genererate the following error:
 
-<!---Change to style guide appropriate syntax-->
-
-```google_compute_ssl_certificate.ssl-cert (destroy): 1 error(s) occurred: google_compute_ssl_certificate.ssl-cert: Error deleting ssl certificate: googleapi: Error 400: The ssl_certificate resource 'projects/<redacted>/global/sslCertificates/<redacted>-gcp-lb-cert' is already being used by 'projects/<redacted>/global/targetHttpsProxies/<redacted>-gcp-https-proxy', resourceInUseByAnotherResource```
-
-<!--- |- -->
+```
+google_compute_ssl_certificate.ssl-cert (destroy): 
+1 error(s) occurred: google_compute_ssl_certificate.ssl-cert: Error deleting ssl certificate: googleapi: 
+Error 400: The ssl_certificate resource 'projects/<redacted>/global/sslCertificates/<redacted>-gcp-lb-cert' is already being used by 'projects/<redacted>/global/targetHttpsProxies/<redacted>-gcp-https-proxy', resourceInUseByAnotherResource
+```
 
 If this occurs, update your `params.yml` file to supply the certs that were generated in the `params.yml` file when you triggered the `create-infrastructure` job.
 
@@ -122,7 +132,7 @@ As a workaround, delete the BOSH Director VM before running the `wipe-env` job. 
 
 ###<a id ='allow-ssh'></a> Allow SSH to Ops Manager without a Jumpbox
 
-+ There is no jumpbox installed as part of the Terraform scripts.
+There is no jumpbox installed as part of the Terraform scripts.
 If you need to SSH into the Ops Manager VM add the 1allow-ssh` tag to the network access tags for that VM.
 Add an SSH key to the instance or  use the gcloud cli that adds the SSH key automatically. 
 
