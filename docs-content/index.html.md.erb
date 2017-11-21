@@ -53,10 +53,8 @@ The following are prerequisites for using PCF Pipelines:
 + Access to a Docker registry: Enabling tasks requires a Docker image, so as to instantiate a container. 
 For more information on using Docker registries with PCF, see the [Using Docker Registries](https://docs.pivotal.io/pivotalcf/opsguide/docker-registry.html) topic. 
 + Fly Command Line Interface (Fly CLI): This can be downloaded through the OS-specific link provided in the lower right hand corner of the Concourse user interface. For more information on using the Fly Command Line Interface, see the [Fly CLI](https://concourse.ci/fly-cli.html) documentation.
-+ Firewall Provisions: Customers may have to configure open firewalls or proxies for the resources accessed by PCF Pipelines. For more information on when firewall provisions are needed, see the [Configuring Firewalls for PCF Pipelines](https://github.com/pivotal-cf/pcf-pipelines/blob/master/FIREWALL.md) topic.
-
-<!---Insert link to firewalls doc page, once it's completed--> 
-
++ Firewall Provisions: Customers may have to configure open firewalls or proxies for the resources accessed by PCF 
+Pipelines. For more information about when firewall provisions are needed, see [Configuring Firewalls for PCF Pipelines](https://github.com/pivotal-cf/pcf-pipelines/blob/master/FIREWALL.md).
 
 ## <a id='download'></a>Download PCF Pipelines
 The most stable version of PCF Pipelines is available on [PivNet](https://network.pivotal.io/products/pcf-automation/). Each PCF Pipelines release contains bug fixes and new features.
@@ -64,7 +62,7 @@ Access to PCF Pipelines is restricted.
 Contact your account executive if you would like access to PCF Pipelines through PivNet. 
 
 ## <a id='install'></a>Install Pipelines
-Install Pipelines deploy PCF for the operator's chosen IaaS. </br></br>
+Install Pipelines deploy PCF for the operator's chosen IaaS. We currently only support vSphere</br></br>
 For public cloud installs, such as GCP, the Install Pipeline deploys the necessary infrastructure in the public cloud. This infrastructure includes networks, load balancers, and databases. These resources are used to deploy Ops Manager and Elastic Runtime. </br></br>
 On-premise private datacenter Install Pipelines, such as the vSphere Install Pipeline, do not provision any infrastructure resources.
 The vSphere Install Pipeline only deploys Ops Manager and Elastic Runtime by using resources that are specified in the `params.yml` file of the vSphere pipeline folder.
@@ -76,53 +74,10 @@ The production-ready Install Pipelines are:
 
 ### <a id='compatability'></a>Compatibility Matrix
 
-<p class="note"><strong>Note:</strong> ERT v1.11.14 is not compatible with pcf-pipelines
-</p>
-
-<table>
-  <tr>
-    <th>IaaS</th>
-    <th>Pipelines Release</th>
-    <th>OM Version</th>
-    <th>ERT Version</th>
-  </tr>
-  <tr>
-    <td>vSphere</td>
-    <td>v0.18.0</td>
-    <td>1.12.x</td>
-    <td>1.12.3</td>
-  </tr>
-  <tr>
-    <td>GCP</td>
-    <td>v0.18.0</td>
-    <td>1.12.x</td>
-    <td>1.12.3</td>
-  </tr>
-</table>
-
-<table>
-  <tr>
-    <th>IaaS</th>
-    <th>Pipelines Release</th>
-    <th>OM Version</th>
-    <th>ERT Version</th>
-  </tr>
-  <tr>
-    <td>vSphere</td>
-    <td>v0.17.0</td>
-    <td>1.11.12</td>
-    <td>1.11.8</td>
-  </tr>
-  <tr>
-    <td>GCP</td>
-    <td>v0.17.0</td>
-    <td>1.11.12</td>
-    <td>1.11.8</td>
-  </tr>
-</table>
+To view the compatbility matrix for PCF Pipelines, visit the [PCF Pipelines repository page](https://github.com/pivotal-cf/pcf-pipelines#install-pcf-pipelines).
 
 ## <a id='upgrade'></a>Upgrade Tile Pipelines
 These pipelines supports patch upgrades of Elastic Runtime and service tiles. These pipelines are intended to be kept running for as long as the deployment exists.</br> 
 Upgrade pipelines check the Pivotal Network periodically for new software versions, and apply these updates to your foundation. 
 
-The only production ready Upgrade Tile Piplene is the [Upgrade Tile Pipeline](upgrade-tile.html).
+The only production-ready upgrade tile pipeine is the [Upgrade Tile Pipeline](upgrade-tile.html).
