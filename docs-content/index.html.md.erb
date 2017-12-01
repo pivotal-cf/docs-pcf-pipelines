@@ -7,22 +7,21 @@ This documentation details the benefits and available versions of PCF Pipelines.
 
 ## <a id='overview'></a>Overview
 
-PCF Pipelines are a collection of Concourse pipelines that install and upgrade Pivotal Cloud Foundry and its components. 
-These pipelines are base templates meant to be modified. 
-Operators utilize PCF Pipelines during Platform Dojos to automate the installing and upgrading of PCF. 
+PCF Pipelines are a collection of Concourse pipelines that install and upgrade Pivotal Cloud Foundry and its components. Operators utilize PCF Pipelines during Platform Dojos to automate the installing and upgrading of PCF.
 
-The `install-pcf` pipeline deploys PCF for the operator's chosen IaaS.
 This pipeline installs Pivotal Cloud Foundry according to the [Reference Architecture](https://docs.pivotal.io/pivotalcf/refarch/index.html) of your chosen IaaS. 
 These architectures are suitable production environments, typically using three availability zones and high availability for components where possible.
 
-The `upgrade-tile` pipeline supports patch upgrades of Elastic Runtime and service tiles.
+The `upgrade-tile` pipeline supports patch upgrades of Elastic Runtime and service tiles, and are used to keep your PCF foundation up to date with the latest patch versions of PCF software from Pivotal Network. 
  
 ## <a id='benefits'></a>Benefits
 
-PCF Pipelines improve upon the manual experience of Installing and Upgrading PCF in the following ways:
+PCF Pipelines improve upon the manual experience of Installing and Upgrading PCF by:
   
-  + PCF Pipelines allow operators to continuously deploy PCF while still maintaining previously configured pipeline modifications.
-  + PCF Pipelines ensure that PCF platforms are more secure by applying a patch upgrade as soon as that patch is available on PivNet.
+  + allowing operators to continuously deploy PCF while still maintaining previously configured pipeline modifications.
+  + automating the deployment of PCF, reducing operational time and manual work related to deploying PCF
+  + deploying PCF in a repeatedable and consistent way, reducing operator-related errors in deploying the platform 
+  + ensuring that PCF platforms are more secure by applying a patch upgrade as soon as that patch is available on PivNet.
 
 
 ## <a id='support'></a> Supported Pipelines
@@ -41,7 +40,7 @@ The following pipelines are considered production-ready and are endorsed Pivotal
   </tr>
   <tr>
     <td>Upgrade Tile Pipeline (<code>upgrade-tile</code>)</td>
-    <td></td>
+    <td>platform-agnostic</td>
   </tr>
 </table>
 
