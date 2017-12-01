@@ -111,6 +111,8 @@ You can also unpause the pipeline by running the following command:
 
 1. In the GCP Console Dashboard, navigate to **Network Services** > **Cloud DNS** > **Create Zone** and edit  your DNS Settings based on the output from the previous step.
 
+1. Once DNS is set up you can run configure-director. From there the pipeline should automatically run through to the end.
+
 ## <a id='known'></a> Known Issues
 ###<a id='create'></a> Create Infrastructure job trying to delete SSL cert in use
 Running the `create-infrastructure` job might genererate the following error:
