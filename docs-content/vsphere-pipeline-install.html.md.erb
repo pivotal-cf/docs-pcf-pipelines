@@ -53,6 +53,47 @@ This table describes the jobs associated with the vSphere Install Pipeline's `pi
     </tr>
   </tr>
 </table>
+
+
+## Prerequisites
+
+* vSphere 6.x or greater
+* vSphere NSX 6.1 or greater
+* vCenter Account with the permissions as detailed in
+  [vSphere Service Account Permissions](https://docs.pivotal.io/pivotalcf/customizing/vsphere-service-account.html).
+* At least 1 of the following: *Standard Port Group*, *Distributed Port Group*,
+  *Logical Switch* for an `uplink` port group.
+  * This port group must have a network that is routable in the environment.
+    This is the uplink network.
+* A *Distributed Port Group* for an `uplink` port group, required for DLR
+  uplink - as the transit network between the deployed ESG and the DLR, if the
+  DLR option is enabled.
+  * This port group must have a network that is routable in the environment.
+    This is the uplink network.
+* DNS zone with the following records:
+  * `opsman.<pcf-domain>` -> Opsman VIP
+  * `*.sys.<pcf-domain>` -> ERT VIP
+  * `*.uaa.sys.<pcf-domain>` -> ERT VIP
+  * `*.login.sys.<pcf-domain>` -> ERT VIP
+  * `*.cfapps.<pcf-domain>` -> ERT VIP
+  * `ssh.sys.<pcf-domain>` -> SSH Proxy VIP
+  * Additional entries for each isolation segment added.
+* SSL Certificate for your PCF domain.
+  * The SSL Certificate needs `*.<pcf-domain>` as the common name.
+  * Additionally the certificate needs the following SANs:
+  * `*.sys.<pcf-domain>`
+  * `*.uaa.sys.<pcf-domain>`
+  * `*.login.sys.<pcf-domain>`
+  * `*.cfapps.<pcf-domain>`
+* At least five routable IP addresses on the uplink network for the NSX Edge Load
+  Balancer VIPs and NAT configuration:
+  * NSX Edge Primary Uplink Interface IP (Default SNAT)
+  * DNAT VIP - Opsman
+  * Load Balancer VIP - HTTP/HTTP(s) (Go Routers)
+  * Load Balancer VIP - SSH Proxy (Diego Brains)
+  * Load Balancer VIP - TCP Router(s)
+  * Any additional IP addresses for exposed isolation segments
+
 ## <a id='usage'></a> Installing PCF on vSphere
 1. Ensure that the NSX edge is properly setup as detailed in the [Pivotal vSphere NSX Cookbook](http://docs.pivotal.io/pivotalcf/1-12/refarch/vsphere/vsphere_nsx_cookbook.html).
 1. Log in to the Pivotal Network and download the latest version of **PCF Platform Automation with Concourse (PCF Pipelines)**.
