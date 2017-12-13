@@ -111,6 +111,12 @@ You can also unpause the pipeline by running the following command:
 
 1. In the GCP Console Dashboard, navigate to **Network Services** > **Cloud DNS** > **Create Zone** and edit  your DNS Settings based on the output from the previous step.
 
+1. Trigger the `create-infrastructure` job by running the following command:
+`fly --target TARRGET-NAME trigger-job --job PIPELINE-NAME/configure-director`
+   </br>Where:
+  1. `TARGET-NAME`is the target name of your Concourse instance.
+  1. `PIPELINE-NAME` is the name of the pipeline in your Concourse instance. 
+
 ## <a id='known'></a> Known Issues
 ###<a id='create'></a> Create Infrastructure job trying to delete SSL cert in use
 Running the `create-infrastructure` job might genererate the following error:
